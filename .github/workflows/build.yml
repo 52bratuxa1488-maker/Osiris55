@@ -1,0 +1,24 @@
+name: Compile Clean DLL
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Add MSBuild to PATH
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Build Osiris
+      run: msbuild Osiris.sln /p:Configuration=Release /p:Platform=x86
+
+    - name: Upload Compiled DLL
+      uses: actions/upload-artifact@v4
+      with:
+        name: My-Safe-Osiris
+        path: Release/Osiris.dll
